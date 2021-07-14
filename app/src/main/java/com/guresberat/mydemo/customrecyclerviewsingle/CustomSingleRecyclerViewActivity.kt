@@ -1,14 +1,11 @@
 package com.guresberat.mydemo.customrecyclerviewsingle
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.guresberat.mydemo.customrecyclerview.QuantityListener
-import com.guresberat.mydemo.customrecyclerview.RecyclerViewAdapterSingle
 import com.guresberat.mydemo.databinding.ActivityCustomRecyclerViewBinding
 
-class CustomSingleRecyclerViewActivity : AppCompatActivity(), QuantityListener {
+class CustomSingleRecyclerViewActivity : AppCompatActivity(){
     private lateinit var binding : ActivityCustomRecyclerViewBinding
     private lateinit var recyclerViewAdapterSingle: RecyclerViewAdapterSingle
 
@@ -16,21 +13,20 @@ class CustomSingleRecyclerViewActivity : AppCompatActivity(), QuantityListener {
         super.onCreate(savedInstanceState)
         binding = ActivityCustomRecyclerViewBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        recyclerViewAdapterSingle = RecyclerViewAdapterSingle(this)
-        recyclerViewAdapterSingle.submitList(getQuantityData())
         setUpRecyclerView()
+
     }
 
-    private fun getQuantityData(): ArrayList<String> {
-       val arrayList : ArrayList<String> = ArrayList()
-       arrayList.add("10 kg")
-       arrayList.add("110 kg")
-       arrayList.add("120 kg")
-       arrayList.add("150 kg")
-       arrayList.add("170 kg")
-       arrayList.add("180 kg")
-       arrayList.add("90 kg")
-       arrayList.add("70 kg")
+    private fun getQuantityData(): ArrayList<RecyclerViewAdapterSingle.Items> {
+       val arrayList : ArrayList<RecyclerViewAdapterSingle.Items> = ArrayList()
+       arrayList.add(RecyclerViewAdapterSingle.Items("1023 kg",position = 0))
+       arrayList.add(RecyclerViewAdapterSingle.Items("103 kg",position = 1))
+       arrayList.add(RecyclerViewAdapterSingle.Items("1054 kg",position = 2))
+       arrayList.add(RecyclerViewAdapterSingle.Items("1075 kg",position = 3))
+       arrayList.add(RecyclerViewAdapterSingle.Items("1056 kg",position = 4))
+       arrayList.add(RecyclerViewAdapterSingle.Items("102 kg",position = 5))
+       arrayList.add(RecyclerViewAdapterSingle.Items("105 kg",position = 6))
+       arrayList.add(RecyclerViewAdapterSingle.Items("100 kg",position = 7))
         return arrayList
     }
 
@@ -38,11 +34,10 @@ class CustomSingleRecyclerViewActivity : AppCompatActivity(), QuantityListener {
         binding.recyclerView.let{ rv ->
             rv.setHasFixedSize(true)
             rv.layoutManager = LinearLayoutManager(rv.context)
+            recyclerViewAdapterSingle = RecyclerViewAdapterSingle()
             rv.adapter =  recyclerViewAdapterSingle
+            recyclerViewAdapterSingle.submitList(getQuantityData())
         }
     }
 
-    override fun onQuantityChange(arrayList: ArrayList<String>) {
-        Toast.makeText(this,arrayList.toString(),Toast.LENGTH_SHORT).show()
-    }
 }

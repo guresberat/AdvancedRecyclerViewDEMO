@@ -1,12 +1,14 @@
 package com.guresberat.mydemo.customrecyclerview
 
+import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.guresberat.mydemo.customrecyclerviewsingle.CustomSingleRecyclerViewActivity
 import com.guresberat.mydemo.databinding.ActivityCustomRecyclerViewBinding
 
-class CustomRecyclerViewActivity : AppCompatActivity(), QuantityListener {
+class CustomRecyclerViewActivity : AppCompatActivity(){
     private lateinit var binding: ActivityCustomRecyclerViewBinding
     private lateinit var recyclerViewAdapter: RecyclerViewAdapter
 
@@ -14,9 +16,15 @@ class CustomRecyclerViewActivity : AppCompatActivity(), QuantityListener {
         super.onCreate(savedInstanceState)
         binding = ActivityCustomRecyclerViewBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        recyclerViewAdapter = RecyclerViewAdapter(this)
-        recyclerViewAdapter.submitList(getQuantityData())
         setUpRecyclerView()
+        binding.let {
+            it.nextButton.setOnClickListener {
+                Toast.makeText(this, "test", Toast.LENGTH_SHORT).show()
+                val intent = Intent(this, CustomSingleRecyclerViewActivity::class.java)
+                startActivity(intent)
+                finish()
+            }
+        }
     }
 
     private fun getQuantityData(): ArrayList<String> {
@@ -36,11 +44,9 @@ class CustomRecyclerViewActivity : AppCompatActivity(), QuantityListener {
         binding.recyclerView.let { rv ->
             rv.setHasFixedSize(true)
             rv.layoutManager = LinearLayoutManager(rv.context)
+            recyclerViewAdapter = RecyclerViewAdapter()
+            recyclerViewAdapter.submitList(getQuantityData())
             rv.adapter = recyclerViewAdapter
         }
-    }
-
-    override fun onQuantityChange(arrayList: ArrayList<String>) {
-        Toast.makeText(this, arrayList.toString(), Toast.LENGTH_SHORT).show()
     }
 }

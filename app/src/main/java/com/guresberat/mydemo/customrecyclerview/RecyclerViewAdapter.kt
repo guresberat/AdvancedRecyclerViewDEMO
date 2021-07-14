@@ -1,7 +1,5 @@
 package com.guresberat.mydemo.customrecyclerview
 
-import android.content.ContentValues.TAG
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,30 +7,20 @@ import android.widget.CheckBox
 import androidx.recyclerview.widget.RecyclerView
 import com.guresberat.mydemo.R
 
-class RecyclerViewAdapter(private var quantityListener: QuantityListener) :
-    RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class RecyclerViewAdapter() :
+    RecyclerView.Adapter<RecyclerViewAdapter.ItemViewHolder>() {
     private var arrayList: ArrayList<String> = ArrayList()
-    private var arrayList0: ArrayList<String> = ArrayList()
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-        return ViewHolder(
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ItemViewHolder {
+        return ItemViewHolder(
             LayoutInflater.from(parent.context).inflate(R.layout.rv_layout, parent, false)
         )
     }
 
-    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-        Log.e(TAG, "onBindViewHolder: ")
-        when (holder) {
-            is ViewHolder -> {
-                holder.bind(arrayList[position])
-                if (holder.checkBox.isChecked) {
-                    arrayList0.add(arrayList[position])
-                } else {
-                    arrayList0.remove(arrayList[position])
-                }
-            }
-        }
-        quantityListener.onQuantityChange(arrayList0)
+    override fun onBindViewHolder(holder: ItemViewHolder, position: Int) {
+
+        holder.bind(arrayList[position])
+
     }
 
     override fun getItemCount(): Int {
@@ -45,7 +33,7 @@ class RecyclerViewAdapter(private var quantityListener: QuantityListener) :
     }
 
 
-    class ViewHolder(
+    class ItemViewHolder(
         itemView: View
     ) : RecyclerView.ViewHolder(itemView) {
         val checkBox: CheckBox = itemView.findViewById(R.id.check_box)

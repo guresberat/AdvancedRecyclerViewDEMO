@@ -10,6 +10,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.MyDEMO">
         <activity android:name=".customrecyclerviewsingle.CustomSingleRecyclerViewActivity"></activity>
+        <activity android:name=".customrecyclerview.CustomRecyclerViewActivity"></activity>
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

@@ -1,7 +1,5 @@
-package com.guresberat.mydemo.customrecyclerview
+package com.guresberat.mydemo.customrecyclerviewsingle
 
-import android.content.ContentValues.TAG
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,50 +7,57 @@ import android.widget.CheckBox
 import androidx.recyclerview.widget.RecyclerView
 import com.guresberat.mydemo.R
 
-class RecyclerViewAdapterSingle(private var quantityListener: QuantityListener) :
-    RecyclerView.Adapter<RecyclerView.ViewHolder>() {
-    private var arrayList: ArrayList<String> = ArrayList()
-    private var arrayList0: ArrayList<String> = ArrayList()
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-        return ViewHolder(
+class RecyclerViewAdapterSingle() :
+    RecyclerView.Adapter<RecyclerViewAdapterSingle.ItemViewHolder>() {
+    private var arrayList: ArrayList<Items> = ArrayList()
+    var checkedPosition = -1
+
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ItemViewHolder {
+        return ItemViewHolder(
             LayoutInflater.from(parent.context).inflate(R.layout.rv_layout, parent, false)
         )
     }
 
-    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-        Log.e(TAG, "onBindViewHolder: ")
-        when (holder) {
-            is ViewHolder -> {
-                holder.bind(arrayList[position])
-                if (holder.checkBox.isChecked) {
-                    arrayList0.add(arrayList[position])
-                } else {
-                    arrayList0.remove(arrayList[position])
-                }
-            }
-        }
-        quantityListener.onQuantityChange(arrayList0)
+    override fun onBindViewHolder(holder: ItemViewHolder, position: Int) {
+        holder.bind(arrayList[position])
     }
+
 
     override fun getItemCount(): Int {
         return arrayList.size
     }
 
-    fun submitList(array: ArrayList<String>) {
+    fun submitList(array: ArrayList<Items>) {
         arrayList = array
         notifyDataSetChanged()
     }
 
 
-    class ViewHolder(
+    inner class ItemViewHolder(
         itemView: View
     ) : RecyclerView.ViewHolder(itemView) {
         val checkBox: CheckBox = itemView.findViewById(R.id.check_box)
 
-        fun bind(name: String) {
-            checkBox.text = name
+        fun bind(items : Items) {
+            checkBox.text = items.name
+            checkBox.isSelected = items.selected
+            checkBox.setOnClickListener{
+                if(checkedPosition != -1){
+                    arrayList[checkedPosition].selected = false
+                    notifyItemChanged(checkedPosition)
+                }
+                arrayList[items.position].selected = true
+                checkedPosition = items.position
+                notifyItemChanged(checkedPosition)
+            }
         }
 
     }
+
+    data class Items(
+        var name: String,
+        var selected: Boolean = false,
+        var position: Int
+    )
 }
