@@ -6,11 +6,12 @@ import android.view.ViewGroup
 import android.widget.CheckBox
 import androidx.recyclerview.widget.RecyclerView
 import com.guresberat.mydemo.R
+import com.guresberat.mydemo.models.Item
 
 
 class RecyclerViewAdapterSingle() :
     RecyclerView.Adapter<RecyclerViewAdapterSingle.ItemViewHolder>() {
-    private var arrayList: ArrayList<Items> = ArrayList()
+    private var arrayList: ArrayList<Item> = ArrayList()
     var checkedPosition = -1
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ItemViewHolder {
@@ -28,22 +29,21 @@ class RecyclerViewAdapterSingle() :
         return arrayList.size
     }
 
-    fun submitList(array: ArrayList<Items>) {
+    fun submitList(array: ArrayList<Item>) {
         arrayList = array
         notifyDataSetChanged()
     }
-
 
     inner class ItemViewHolder(
         itemView: View
     ) : RecyclerView.ViewHolder(itemView) {
         val checkBox: CheckBox = itemView.findViewById(R.id.check_box)
 
-        fun bind(items : Items) {
+        fun bind(items: Item) {
             checkBox.text = items.name
-            checkBox.isSelected = items.selected
-            checkBox.setOnClickListener{
-                if(checkedPosition != -1){
+            checkBox.isChecked = items.selected
+            checkBox.setOnClickListener {
+                if (checkedPosition != -1) {
                     arrayList[checkedPosition].selected = false
                     notifyItemChanged(checkedPosition)
                 }
@@ -54,10 +54,4 @@ class RecyclerViewAdapterSingle() :
         }
 
     }
-
-    data class Items(
-        var name: String,
-        var selected: Boolean = false,
-        var position: Int
-    )
 }
