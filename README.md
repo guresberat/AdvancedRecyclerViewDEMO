@@ -4,7 +4,7 @@
 
 Features : 
 - Checking if it is the first time the app opened
-- Single selection RecyclerView with checkboxes and custom RecyclerView selector.
+- Single selection RecyclerView with checkboxes and custom RecyclerView selector
 - Multiple selection RecyclerView with checkboxes 
 
 ## Built With 
